@@ -9,3 +9,5 @@ const register = async (req, res) => {
         user: {firstName: user.firstName}, token
     })
 }
+
+module.exports = {register}

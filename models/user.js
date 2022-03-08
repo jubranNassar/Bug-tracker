@@ -29,9 +29,9 @@ const UserSchema = new mongoose.Schema({
         enum: ["admin", "developer"],
         default: "developer"
     }],
-    projects: [{
-        type: Schema.Types.ObjectId, ref: "Project"
-    }]
+    // projects: [{
+    //     type: Schema.Types.ObjectId, ref: "Project"
+    // }]
 });
 
 UserSchema.pre("save", async function () {
@@ -55,4 +55,4 @@ UserSchema.methods.createJWT = function () {
 
 
 
-modules.export = mongoose.model("User", UserSchema)
+module.exports = mongoose.model("User", UserSchema)

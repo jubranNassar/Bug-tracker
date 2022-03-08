@@ -1,16 +1,17 @@
-
-const connectDB = require("./db/connections")
-
 require("dotenv").config()
+const connectDB = require("./db/connections")
 const express = require("express")
 const app = express()
+const authRouter = require("./routes/users")
 const port = process.env.PORT || 5000;
 
 app.use("/", (req, res)=> {
     res.send("Home")
 })
 
+app.use(express.json())
 
+app.use("/api/v1/auth", authRouter)
 const start = async () => {
     try {
         await connectDB(process.env.MONGO_URI)
