@@ -29,9 +29,9 @@ const UserSchema = new mongoose.Schema({
         enum: ["admin", "developer"],
         default: "developer"
     }],
-    // projects: [{
-    //     type: Schema.Types.ObjectId, ref: "Project"
-    // }]
+    projects: [{
+        type: mongoose.Schema.Types.ObjectId, ref: "Project"
+    }]
 });
 
 UserSchema.pre("save", async function () {

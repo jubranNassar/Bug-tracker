@@ -23,9 +23,4 @@ const start = async () => {
     }
 }
 
-
 start()
-
-// TODO: connect mongoose, start buildng models, building routes.
-
-
