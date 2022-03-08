@@ -5,18 +5,18 @@ const app = express()
 const authRouter = require("./routes/users")
 const port = process.env.PORT || 5000;
 
-app.use("/", (req, res)=> {
+app.get("/", (req, res)=> {
     res.send("Home")
 })
 
 app.use(express.json())
-
 app.use("/api/v1/auth", authRouter)
+
 const start = async () => {
     try {
         await connectDB(process.env.MONGO_URI)
         app.listen(port, () => {
-            console.log(`listening to ${port}`);
+            console.log(`listening to port ${port}`);
     });
     } catch(error) {
         console.log(error)
