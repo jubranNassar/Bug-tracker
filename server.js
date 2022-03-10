@@ -2,10 +2,15 @@ require("dotenv").config()
 const express = require("express")
 const app = express()
 
+
+// User authentication
+const authentication = require("./middleware/authentication")
+
 // Routes
 const authRouter = require("./routes/users")
 
 // Middleware
+
 
 // Error Handler
 const notFound = require("./middleware/not-found")
