@@ -1,5 +1,5 @@
 require("dotenv").config()
-const connectDB = require("./db/connections")
+const connectDB = require("./db/connect")
 const express = require("express")
 const app = express()
 const authRouter = require("./routes/users")

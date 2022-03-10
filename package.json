@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon app.js"
+    "start": "nodemon server.js"
   },
   "repository": {
     "type": "git",
@@ -30,6 +30,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.2.4",
     "rate-limiter": "^0.2.0",
+    "validator": "^13.7.0",
     "xss-clean": "^0.1.1",
     "yamljs": "^0.3.0"
   },

@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
+const { isEmail } = require("validator")
+
 const UserSchema = new mongoose.Schema({
     firstName: {
         type: String,
@@ -13,25 +15,33 @@ const UserSchema = new mongoose.Schema({
     email: {
         type: String,
         required: [true, "Please provide email"],
-        match: [
-            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-            "Please provide a valid email",
-        ],
+        validate: {
+            validator: isEmail,
+            message: "Please provide valid email",
+        },
         unique: true,
     },
     password: {
         type: String,
-        required: [true, "Please provide a password with a minimum length of 6 characters"],
-        minlength: 6
+        required: [
+            true,
+            "Please provide a password with a minimum length of 6 characters",
+        ],
+        minlength: 6,
     },
-    role: [{
-        type: String,
-        enum: ["admin", "developer"],
-        default: "developer"
-    }],
-    projects: [{
-        type: mongoose.Schema.Types.ObjectId, ref: "Project"
-    }]
+    role: [
+        {
+            type: String,
+            enum: ["admin", "developer"],
+            default: "developer",
+        },
+    ],
+    projects: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Project",
+        },
+    ],
 });
 
 UserSchema.pre("save", async function () {
