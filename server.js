@@ -43,3 +43,9 @@ const start = async () => {
 }
 
 start()
+
+
+ // TODO: troubleshoot error handling functions by reacreating errors, create user logout function, create a varification function?, start on project model, controller and routes.
+
+
+
