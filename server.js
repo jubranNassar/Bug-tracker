@@ -9,6 +9,7 @@ const authentication = require('./middleware/authentication');
 
 // Routes
 const authRouter = require('./routes/users');
+const projectRouter = require("./routes/projects")
 
 // Middleware
 
@@ -21,7 +22,8 @@ app.get('/', (req, res) => {
 });
 
 app.use(express.json());
-app.use('/api/v1/auth', authRouter);
+app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/projects", projectRouter)
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
@@ -44,4 +46,4 @@ const start = async () => {
 
 start();
 
-// TODO: troubleshoot error handling functions by reacreating errors, create user logout function, create a varification function?, start on project model, controller and routes.
+// TODO: start on project model, controller and routes.

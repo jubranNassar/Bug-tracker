@@ -13,7 +13,7 @@ const register = async (req, res) => {
 const logIn = async (req, res) => {
     const { email, password } = req.body
     if (!email || !password) {
-        throw new BadRequestErrors("Please provide email and password").json()
+        throw new BadRequestErrors("Please provide email and password")
     }
 
     const user = await User.findOne({email})
