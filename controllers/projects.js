@@ -38,7 +38,16 @@ const editProject = async (req, res) => {
 }
 
 const deleteProject = async (req, res) => {
-    res.send("deleted")
+    const { id: projectId } = req.params
+    const project = await Project.findOne({ _id: projectId })
+    
+    if(!project) {
+        throw new NotFoundError(`No project with ID ${projectId}`)
+
+    }
+    await project.remove()
+    res.status(StatusCodes.OK).json({msg: "Deleted successfully"})
+
 }
 
 module.exports = { getAllProjects, getProject, createProject, editProject, deleteProject }
