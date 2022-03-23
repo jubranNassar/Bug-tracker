@@ -7,16 +7,18 @@ const ticketSchema = new mongoose.Schema({
     },
 
     priority: {
-        enum: ["Low", "Medium", "High"],
-        required: [true, "please provide ticket priority"]
+        type: String,
+        required: [true, "please provide ticket priority"],
+        enum: ["Low", "Medium", "High"]
     },
 
     description: {
-        type: Text,
+        type: String,
         required: [true, "Please provide a description"]
     },
 
     progress: {
+        type: String,
         enum: ["incomplete", "in-progress", "completed"],
         default: "incomplete"
     },
@@ -29,7 +31,11 @@ const ticketSchema = new mongoose.Schema({
 
     comments: [{
         type: mongoose.Schema.Types.ObjectId, ref: "Comment"
-    }]
+    }],
+
+    project: {
+        type: mongoose.Schema.Types.ObjectId, ref: "Project"
+    }
 })
 
 module.exports = mongoose.model("Ticket", ticketSchema)

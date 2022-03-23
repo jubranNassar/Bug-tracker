@@ -27,10 +27,11 @@ const editTicket = async (req, res) => {
 	const {
 		params: { id: ticketId, body: title },
 	} = req;
+
 	if (title == '') {
 		throw new BadRequestErrors('Title field cannot be empty');
 	}
-	const ticket = await ticket.findByIdAndUpdate({ _id: ticketId }, req.body, {
+	const ticket = await Ticket.findByIdAndUpdate({ _id: ticketId }, req.body, {
 		new: true,
 		runValidators: true,
 	});
