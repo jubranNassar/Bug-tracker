@@ -1,6 +1,8 @@
 const Ticket = require('../models/ticket');
+const User = require('../models/auth');
 const { StatusCodes } = require('http-status-codes');
 const { BadRequestErrors, NotFoundError } = require('../errors');
+const { findById } = require('../models/ticket');
 
 const getAllTickets = async (req, res) => {
 	const tickets = await Ticket.find({});
@@ -19,7 +21,15 @@ const getTicket = async (req, res) => {
 };
 
 const createTicket = async (req, res) => {
-	const tickets = await Ticket.create(req.body);
+	const { id } = req.params;
+	const { userId } = req.user;
+
+	const tickets = await Ticket.create({
+		...req.body,
+		project: id,
+		createdBy: userId,
+	});
+
 	res.status(StatusCodes.CREATED).json({ tickets });
 };
 
