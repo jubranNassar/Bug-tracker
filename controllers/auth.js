@@ -19,7 +19,7 @@ const register = async (req, res) => {
 	//TODO: Can still see password when created
 	res.status(StatusCodes.CREATED).json({
 		data: { firstName, lastName, email },
-		token,
+		token,	
 	});
 };
 

@@ -1,8 +1,8 @@
 const Ticket = require('../models/ticket');
-const User = require('../models/auth');
-const { StatusCodes } = require('http-status-codes');
+const Project = require("../models/project")
 const { BadRequestErrors, NotFoundError } = require('../errors');
-const { findById } = require('../models/ticket');
+const { StatusCodes } = require('http-status-codes');
+
 
 const getAllTickets = async (req, res) => {
 	const tickets = await Ticket.find({});
@@ -23,13 +23,15 @@ const getTicket = async (req, res) => {
 const createTicket = async (req, res) => {
 	const { id } = req.params;
 	const { userId } = req.user;
-
+	const currentProject = await Project.findById(id)
 	const tickets = await Ticket.create({
 		...req.body,
 		project: id,
 		createdBy: userId,
 	});
-
+	const ticketID = await Ticket.findById(tickets._id)
+	currentProject.tickets.push(ticketID)
+	currentProject.save()
 	res.status(StatusCodes.CREATED).json({ tickets });
 };
 
@@ -54,14 +56,14 @@ const editTicket = async (req, res) => {
 };
 
 const deleteTicket = async (req, res) => {
-	const { id: ticketId } = req.params;
-	const ticket = await ticket.findOne({ _id: ticketId });
-
-	if (!ticket) {
-		throw new NotFoundError(`No ticket with ID ${ticketId}`);
-	}
-	await ticket.remove();
-	res.status(StatusCodes.OK).json({ msg: 'Deleted successfully' });
+	const { params: { id: ticketId, projectId: projectId }, user: { userId }} = req;
+	const ticket = await Ticket.findByIdAndRemove({ _id: ticketId, createdBy: userId });
+	const currentProject = await Project.findById(projectId)
+	res.send(params)
+	// if (!ticket) {
+	// 	throw new NotFoundError(`No ticket with ID ${ticketId}`);
+	// }
+	// res.status(StatusCodes.OK).json({ msg: 'Deleted successfully' });
 };
 
 module.exports = {

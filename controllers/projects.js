@@ -11,10 +11,7 @@ const getProject = async (req, res) => {
 	const {
 		params: { id: projectId },
 	} = req;
-	const project = await Project.findOne({ _id: projectId }).populate(
-		'members',
-		'tickets'
-	);
+	const project = await Project.findOne({ _id: projectId })
 
 	if (!project) {
 		throw new NotFoundError('does not exist');
