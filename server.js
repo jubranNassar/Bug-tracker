@@ -9,9 +9,8 @@ const authentication = require('./middleware/authentication');
 
 // Routes
 const authRouter = require('./routes/users');
-const projectRouter = require("./routes/projects")
-const ticketRouter = require("./routes/tickets")
-
+const projectRouter = require('./routes/projects');
+const ticketRouter = require('./routes/tickets');
 
 // Middleware
 
@@ -24,9 +23,9 @@ app.get('/', (req, res) => {
 });
 
 app.use(express.json());
-app.use("/api/v1/auth", authRouter);
-app.use("/api/v1/projects",authentication, projectRouter)
-app.use("/api/v1/projects/:id/tickets", ticketRouter)
+app.use('/api/v1/auth', authRouter);
+app.use('/api/v1/projects', authentication, projectRouter);
+app.use('/api/v1/projects/:projectID/tickets', ticketRouter);
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
