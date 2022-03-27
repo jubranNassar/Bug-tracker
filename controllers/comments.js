@@ -28,7 +28,8 @@ const createComment = async (req, res) => {
 
 	const comment = await Comment.create({
 		...req.body,
-		createdBy: userId,
+		ticket: ticketID,
+		creator: userId,
 	});
 
 	const commentID = await Comment.findById(comment._id);

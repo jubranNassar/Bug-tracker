@@ -1,7 +1,9 @@
 const Ticket = require('../models/ticket');
 const Project = require('../models/project');
+const Comment = require('../models/comment');
 const { BadRequestErrors, NotFoundError } = require('../errors');
 const { StatusCodes } = require('http-status-codes');
+const { findById } = require('../models/ticket');
 
 const getAllTickets = async (req, res) => {
 	const tickets = await Ticket.find({});
@@ -64,12 +66,16 @@ const deleteTicket = async (req, res) => {
 		user: { userId },
 	} = req;
 
+	await Comment.deleteMany({ ticket: ticketID });
+
 	const ticket = await Ticket.findByIdAndDelete(ticketID, {
 		createdBy: userId,
 	});
+
 	const currentProject = await Project.findById(projectID);
 	currentProject.tickets.pull(ticketID);
 	currentProject.save();
+
 	if (!ticket) {
 		throw new NotFoundError(`No ticket with ID ${ticketID}`);
 	}
