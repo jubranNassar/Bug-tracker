@@ -3,7 +3,6 @@ const Project = require('../models/project');
 const Comment = require('../models/comment');
 const { BadRequestErrors, NotFoundError } = require('../errors');
 const { StatusCodes } = require('http-status-codes');
-const { findById } = require('../models/ticket');
 
 const getAllTickets = async (req, res) => {
 	const tickets = await Ticket.find({});
