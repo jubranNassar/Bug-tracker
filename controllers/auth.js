@@ -19,7 +19,7 @@ const register = async (req, res) => {
 	//TODO: Can still see password when created
 	res.status(StatusCodes.CREATED).json({
 		data: { firstName, lastName, email },
-		token,	
+		token,
 	});
 };
 
@@ -52,4 +52,22 @@ const getAllUsers = async (req, res) => {
 	res.status(StatusCodes.OK).json({ user });
 };
 
-module.exports = { register, logIn, getAllUsers };
+const updateUser = async (req, res) => {
+	const {
+		params: { userID },
+		body,
+	} = req;
+
+	const user = await User.findByIdAndUpdate(userID, body, {
+		new: true,
+		runValidators: true,
+	});
+
+	if (!user) {
+		throw new NotFoundError('does not exist');
+	}
+
+	res.status(StatusCodes.OK).json({ user });
+};
+
+module.exports = { register, logIn, getAllUsers, updateUser };
