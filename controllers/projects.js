@@ -1,6 +1,7 @@
 const Project = require('../models/project');
 const Ticket = require('../models/ticket');
 const Comment = require('../models/comment');
+const User = require('../models/auth');
 const { StatusCodes } = require('http-status-codes');
 const { BadRequestErrors, NotFoundError } = require('../errors');
 
@@ -49,6 +50,11 @@ const deleteProject = async (req, res) => {
 	const {
 		params: { projectID, ticketID },
 	} = req;
+
+	const user = await User.findById(req.user.userId);
+	if (user.role !== 'Admin') {
+		return res.json({ msg: 'no permission' });
+	}
 
 	await Comment.deleteMany({ ticketID });
 	await Ticket.deleteMany({ project: projectID });
