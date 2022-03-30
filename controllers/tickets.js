@@ -1,6 +1,7 @@
 const Ticket = require('../models/ticket');
 const Project = require('../models/project');
 const Comment = require('../models/comment');
+const User = require('../models/auth');
 const { BadRequestErrors, NotFoundError } = require('../errors');
 const { StatusCodes } = require('http-status-codes');
 
@@ -64,6 +65,15 @@ const deleteTicket = async (req, res) => {
 		params: { projectID, ticketID },
 		user: { userId },
 	} = req;
+
+	const currentTicket = await Ticket.findById(ticketID);
+	const currentUser = await User.findById(userId);
+
+	if (currentUser._id !== currentTicket.createdBy) {
+		return res
+			.status(StatusCodes.UNAUTHORIZED)
+			.json({ msg: 'no permissions' });
+	}
 
 	await Comment.deleteMany({ ticket: ticketID });
 
