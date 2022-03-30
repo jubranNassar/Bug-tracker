@@ -13,7 +13,7 @@ const getProject = async (req, res) => {
 	const {
 		params: { projectID },
 	} = req;
-	const project = await Project.findOne(projectID);
+	const project = await Project.findById(projectID);
 
 	if (!project) {
 		throw new NotFoundError('does not exist');

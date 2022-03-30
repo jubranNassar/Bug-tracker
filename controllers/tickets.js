@@ -14,7 +14,7 @@ const getTicket = async (req, res) => {
 		params: { ticketID },
 	} = req;
 
-	const ticket = await Ticket.findOne({ ticketID });
+	const ticket = await Ticket.findById(ticketID);
 
 	if (!ticket) {
 		throw new NotFoundError('does not exist');

@@ -13,7 +13,7 @@ const getComment = async (req, res) => {
 		params: { commentID },
 	} = req;
 
-	const comment = await Comment.findOne({ commentID });
+	const comment = await Comment.findById(commentID);
 
 	if (!comment) {
 		throw new NotFoundError('does not exist');
