@@ -45,6 +45,15 @@ const editTicket = async (req, res) => {
 		params: { ticketID, body: title },
 	} = req;
 
+	const currentTicket = await Ticket.findById(ticketID);
+	const currentUser = await User.findById(userId);
+
+	if (currentUser._id !== currentTicket.createdBy) {
+		return res
+			.status(StatusCodes.UNAUTHORIZED)
+			.json({ msg: 'no permissions' });
+	}
+
 	if (title == '') {
 		throw new BadRequestErrors('Title field cannot be empty');
 	}
