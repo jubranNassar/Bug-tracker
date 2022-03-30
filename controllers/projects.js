@@ -23,6 +23,13 @@ const getProject = async (req, res) => {
 };
 
 const createProject = async (req, res) => {
+	const user = await User.findById(req.user.userId);
+	if (user.role !== 'Admin') {
+		return res
+			.status(StatusCodes.UNAUTHORIZED)
+			.json({ msg: 'no permission' });
+	}
+
 	const projects = await Project.create(req.body);
 	res.status(StatusCodes.CREATED).json({ projects });
 };
@@ -31,10 +38,18 @@ const editProject = async (req, res) => {
 	const {
 		params: { projectID, body: title },
 	} = req;
+
+	const user = await User.findById(req.user.userId);
+	if (user.role !== 'Admin') {
+		return res
+			.status(StatusCodes.UNAUTHORIZED)
+			.json({ msg: 'no permission' });
+	}
+
 	if (title == '') {
 		throw new BadRequestErrors('Title field cannot be empty');
 	}
-	const project = await Project.findByIdAndUpdate({ projectID }, req.body, {
+	const project = await Project.findByIdAndUpdate(projectID, req.body, {
 		new: true,
 		runValidators: true,
 	});
@@ -53,7 +68,9 @@ const deleteProject = async (req, res) => {
 
 	const user = await User.findById(req.user.userId);
 	if (user.role !== 'Admin') {
-		return res.json({ msg: 'no permission' });
+		return res
+			.status(StatusCodes.UNAUTHORIZED)
+			.json({ msg: 'no permission' });
 	}
 
 	await Comment.deleteMany({ ticketID });
